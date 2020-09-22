@@ -12,22 +12,30 @@ if ($_dato !== ''){
     $msj = $this->mensaje;
 }
 
+
 if (isset($msj) and $msj != ''){
     echo "<div class='$class' role='alert'>";
     $result = new jsonUtil();
     $result->dato = $msj;
-    $esJson = $result->isJson();
+    $msj1 = $result->isJson();
 
-if ($esJson  === true) {
-        
-        $msj = $result->decodificaJson($msj);
+    
+if ($msj1  !== false) {
+    
+        //$msj = $result->decodificaJson($msj);
         foreach ($msj as $value){
             echo $value.'<br>';
         }
 
+    }else if(is_array($msj)){
+
+        foreach ($msj as $value){
+            echo $value.'<br>';
+        }
     }else{
-        echo $msj .'<br>';
+        echo $msj.'<br>';
     }
+
 echo '</div>';
 
     }
