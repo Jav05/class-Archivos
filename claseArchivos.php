@@ -121,19 +121,27 @@ ob_end_flush();
 
             header("Content-type: $this->archivo_tipo ");
             header("Pragma: public");
+            //header("Cache-Control: public");
             header("Expires: 0");
             header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
             header('Content-Description: File Transfer');
+            //header("content-Type: application/octet-stream");
+            //header("Content-Type: application/force-download"); 
+            
             header("Content-Length: ".filesize($this->archivo_ruta.$this->archivo_nombre));
             header("Content-disposition:  attachment; filename=". $this->archivo_nombre);
             header("content-Transfer-Encoding: binary");
         
             ob_end_clean();
-             
+            //flush(); 
             
             readfile($this->archivo_ruta.$this->archivo_nombre);
+            
+
+               
+            
+       
         
-     
     } else {
             return "El archivo no existe.";
     }
@@ -182,14 +190,16 @@ public function creaFile($file = '', $ruta = ''){
 
     if (file_exists($this->archivo_ruta . $this->archivo_nombre)){
 
+        return  $msj  =  0;
+
     }else{
 
         $archivo = fopen($this->archivo_ruta . $this->archivo_nombre , "w+b");    // Abrir el archivo, creándolo si no existe
         
         if( $archivo == false ){
-          //return $msj [] = "Error al crear el archivo: $this->archivo_nombre.";
+          return $msj  = 0;
         }else{
-           return $_GET['msj'] = $msj [] =  "El archivo $this->archivo_nombre ha sido creado.";
+           return $msj  =  "El archivo $this->archivo_nombre ha sido creado.";
         }
 
         fclose($archivo);   // Cerrar el archivo
@@ -262,6 +272,34 @@ public function listaDir($ruta = '', $enlace = false, $btn_supr = false, $pagina
         echo 'Directorio no válido.';
     }
 
+}
+
+
+public function leeArchivoTxt($file = '', $ruta = ''){
+
+    if ($file != '') $this->archivo_nombre = $file;
+    if ($ruta != '') $this->archivo_ruta = $ruta; 
+
+      $fp = fopen( $this->archivo_ruta . $this->archivo_nombre , "r");
+
+        $i = 0;
+        while (!feof($fp)){
+            $linea = fgets($fp);
+            echo $linea.'<br>';
+            
+        }
+
+      fclose($fp);
+}
+
+
+public function TxtToArray($file = '', $ruta = ''){
+
+    if ($file != '') $this->archivo_nombre = $file;
+    if ($ruta != '') $this->archivo_ruta = $ruta; 
+
+    $array = file( $this->archivo_ruta . $this->archivo_nombre, FILE_IGNORE_NEW_LINES);
+    return $array;
 }
 
 }
