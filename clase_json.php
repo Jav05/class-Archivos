@@ -2,17 +2,17 @@
 
 class jsonUtil {
 
-    public $dato;
+    static $dato;
 
-    public function isJson ($_dato = '')
+    static function isJson ($_dato = '')
     {
 
         if ($_dato != '')
         { 
-            $this->dato = $_dato;
+            self::$dato = $_dato;
         }
 
-        $result = json_decode($this->dato);
+        $result = json_decode(self::$dato);
 
         if (json_last_error_msg() === 'No error') 
         {
@@ -25,33 +25,32 @@ class jsonUtil {
     
     }
 
-    public function codificaJson ($_dato = '')
+    static function codificaJson ($_dato = '')
     {
 
         if ($_dato != '')
         {
-            $this->dato = $_dato;
+            self::$dato = $_dato;
         }
 
-        $this->dato = json_encode($this->dato, JSON_UNESCAPED_UNICODE);
+        self::$dato = json_encode(self::$dato, JSON_UNESCAPED_UNICODE);
         
-        return $this->dato;
+        return self::$dato;
         
     }
 
-    public function decodificaJson ($_dato = '', $param = true)
+    static function decodificaJson ($_dato = '', $param = true)
     {
         
         if ($_dato != '')
         {
-            $this->dato = $_dato;
+            self::$dato = $_dato;
         }
 
         // true devuelve un array asiciativo al decodificar
-        $this->dato = json_decode($this->dato, $param);
+        self::$dato = json_decode(self::$dato, $param);
         
-        return $this->dato;
+        return self::$dato;
         
     }
-
 }
